@@ -1,48 +1,41 @@
-<?php
+<?PHP
+require_once 'vendor/autoload.php';
+require_once 'src/routes/Router.php';
+require_once 'src/models/APIResponse.php';
 
-require 'vendor/autoload.php';
+header("Access-Control-Allow-Origin: *");
+//header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: GET,POST,PUT,DELETE");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
+$router = new Router();
 
-$url = 'https://api.emailjs.com/api/v1.0/email/send';
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-$client = new Client();
+$response = $router->handleRequest($url, 'GET');
 
-try {
+if ($response instanceof Error) {
 
-    $res = $client->post($url, [
-        'headers' => [
-            'Content-Type' => 'application/json'
-        ],
-        'json' => [
-            'user_id' => "user_gZhFsukRmrjeOPzBaknuv",
-            'service_id' => "Kuikka_gmail",
-            'template_id' => "template_0p9bd8m",
-            'accessToken' => '6b4e94a17090ed5dc225e554d1605a10',
-            'template_params' => [
-                'senderFirstName' => '',
-                'senderLastName' => '',
-                'senderEmailAddress' => '',
-                'startDate' => '',
-                'pickupAddressStreet' => '',
-                'pickupAddressZipAndCity' => '',
-                'pickupAddressCountry' => '',
-                'pickupPhone' => '',
-                'deliveryAddressStreet' => '',
-                'deliveryAddressZipAndCity' => '',
-                'deliveryAddressCountry' => '',
-                'deliveryPhone' => '',
-                'cargoDescription' => '',
-                'messageContent' => ''
-            ]
-        ]
-    ]);
+    http_response_code($response->getCode());
 
-} catch (GuzzleException $exception) {
-    die($exception);
+    if ($response->getMessage()) {
+        echo $response->getMessage();
+    }
+
+    die();
+} else if ($response instanceof APIResponse) {
+
+    http_response_code($response->getStatusCode());
+    echo $response->getMessage();
+
+    die();
+
+} else {
+
+    http_response_code(500);
+    echo 'API response could not be interpreted';
+
+    die();
+
 }
-
-echo $res->getStatusCode();
-echo $res->getHeader('content-type');
-echo $res->getBody();
