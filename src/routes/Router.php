@@ -4,25 +4,25 @@ require_once 'EmailRouter.php';
 
 class Router {
 
-    public function __construct()
-    {
-
-    }
-
     /** Handles routing of API domains */
-    public function handleRequest($path, $method, $params = false) {
+    public static function handleRequest($path, $method, $params) {
 
-        $domain = substr($path, 1, strpos($path, '/') - 1);
+        /** Split paths into array, remove first (empty) element */
+        $pathsArray = explode('/', $path);
+        $pathsArray = array_slice($pathsArray, 1);
+        $routeDomain = $pathsArray[0];
 
-        switch($domain) {
+        switch($routeDomain) {
 
-            case 'emails':
-
+            case 'emails': {
                 $emailRouter = new EmailRouter();
                 return $emailRouter->handleRequest($path, $method, $params);
+            }
 
-            default:
+            default: {
                 return new Error('API route not found', 404);
+            }
+
         }
 
     }

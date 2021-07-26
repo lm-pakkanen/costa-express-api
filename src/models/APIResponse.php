@@ -10,11 +10,11 @@ class APIResponse {
         $this->message = $message;
     }
 
-    public function getStatusCode () {
+    public function getStatusCode (): int {
         return $this->statusCode;
     }
 
-    public function getMessage () {
+    public function getMessage (): string {
         return $this->message;
     }
 
