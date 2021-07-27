@@ -15,14 +15,7 @@ class EmailController {
 
     }
 
-    public function sendProposalRequestEmail($params): APIResponse {
-
-        $isParamsValid = self::isParamsValid($params);
-
-        if (!$isParamsValid) {
-            throw new Error('Invalid values found in parameters', 400);
-        }
-
+    public function sendEmail($templateID, $params): APIResponse {
         return new APIResponse(200, 'OK');
     }
 
