@@ -9,9 +9,22 @@ use Src\models\APIResponse;
 
 require_once __DIR__ . '/../controllers/EmailController.php';
 
+/**
+ * Class EmailRouter
+ * @package Src\routes
+ */
 class EmailRouter {
 
-    public static function handleRequest($path, $method, $params) {
+    /**
+     *
+     * Handles request sent to /emails/*
+     *
+     * @param $path
+     * @param $method
+     * @param $params
+     * @return APIResponse
+     */
+    public static function handleRequest($path, $method, $params): APIResponse {
 
         /** Split paths into array, remove first (empty) element & path domain */
         $pathsArray = explode('/', $path);
@@ -26,29 +39,31 @@ class EmailRouter {
                 $action = $pathsArray[2];
 
                 if (empty($templateID)) {
-                    return new Error('Required parameter missing (templateID)', 400);
+                    throw new Error('Required parameter missing (templateID)', 400);
                 }
 
                 if (empty($action)) {
-                    return new Error('Required parameter missing (action)', 400);
+                    throw new Error('Required parameter missing (action)', 400);
                 }
 
                 switch ($action) {
 
                     case 'send': {
 
+                        if ($method !== 'POST') {
+                            throw new Error('Requested method not supported for this action', 400);
+                        }
+
                         $emailController = new EmailController();
 
-                        try {
-                            $emailController->sendEmail($templateID, $params);
-                        } catch (Error $error) {
-                            return $error;
-                        }
+                        $emailController->sendEmail($templateID, $params);
+
+                        return new APIResponse(200, 'OK');
 
                     }
 
                     default: {
-                        return new Error('Action not supported for templates', 400);
+                        throw new Error('Action not supported for templates', 400);
                     }
 
                 }
@@ -56,31 +71,11 @@ class EmailRouter {
             }
 
             default: {
-                return new Error('API route not found', 404);
+                throw new Error('API route not found', 404);
             }
 
         }
 
     }
 
-}
-/*
-case 'send': {
-
-    if ($method === 'POST') {
-
-
-        $emailController = new EmailController();
-
-        try {
-            $emailController->sendProposalRequestEmail($params);
-        } catch (Error $error) {
-            return $error;
-        }
-
-        return new APIResponse(200, 'OK');
-
-    }
-
-    return new Error('This route does not support requested method');
 }

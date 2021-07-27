@@ -3,11 +3,12 @@
 namespace Src\routes;
 
 use Error;
+use Src\models\APIResponse;
 
 class Router {
 
     /** Handles routing of API domains */
-    public static function handleRequest($path, $method, $params) {
+    public static function handleRequest($path, $method, $params): APIResponse {
 
         /** Split paths into array, remove first (empty) element */
         $pathsArray = explode('/', $path);
@@ -22,7 +23,7 @@ class Router {
             }
 
             default: {
-                return new Error('API route not found', 404);
+                throw new Error('API route not found', 404);
             }
 
         }

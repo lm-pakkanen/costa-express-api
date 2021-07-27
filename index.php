@@ -21,30 +21,32 @@ $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 $params = !empty($_POST) ? $_POST : json_decode(file_get_contents('php://input'), true);
 
-$response = $router->handleRequest($url, $method, $params);
+try {
+
+    $response = $router->handleRequest($url, $method, $params);
+
+} catch (Error $error) {
+
+    http_response_code($error->getCode());
+
+    if ($error->getMessage()) {
+        echo json_encode($error->getMessage());
+    }
+
+    die();
+
+}
 
 if ($response instanceof APIResponse) {
 
     http_response_code($response->getStatusCode());
     echo json_encode($response->getMessage());
 
-    die();
-
-} else if ($response instanceof Error) {
-
-    http_response_code($response->getCode());
-
-    if ($response->getMessage()) {
-        echo json_encode($response->getMessage());
-    }
-
-    die();
-
 } else {
 
     http_response_code(500);
     echo json_encode('API response could not be interpreted');
 
-    die();
-
 }
+
+die();

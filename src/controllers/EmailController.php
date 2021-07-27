@@ -8,83 +8,67 @@ use Src\helpers\Validator;
 use Src\models\APIResponse;
 
 
+/**
+ * Class EmailController
+ * @package Src\controllers
+ */
 class EmailController {
 
+    /**
+     * EmailController constructor.
+     */
     public function __construct()
     {
 
     }
 
+    /**
+     *
+     * Handles sending email
+     *
+     * @param $templateID > Email template ID
+     * @param $params > Email template parameters
+     * @throws Error
+     * @return APIResponse
+     */
     public function sendEmail($templateID, $params): APIResponse {
+
+        if (!self::isTemplateParamsValid($templateID, $params)) {
+            throw new Error('Template parameters invalid', 400);
+        }
+
+        // TODO: Handle sending
+
         return new APIResponse(200, 'OK');
     }
 
-    private static function isParamsValid($params): bool {
+    /**
+     *
+     * Checks if template parameters are valid
+     *
+     * @param $templateID > Email template ID
+     * @param $params > Email template parameters
+     * @throws Error
+     * @return bool
+     */
+    private static function isTemplateParamsValid($templateID, $params): bool {
 
-        // Required data missing
-        if (empty($params)) {
-            throw new Error('Required params not received');
+        if (empty($templateID)) {
+            throw new Error('Required parameter missing (templateID');
         }
 
-        $meta = $params['meta'];
-        $sender = $params['sender'];
-        $receiver = $params['receiver'];
+        switch ($templateID) {
 
-        // Required data missing
-        if (empty($meta) || empty($sender) || empty($receiver)) {
-            throw new Error('Required data not received  (meta,sender,receiver)');
+            case 'requestProposal': {
+                return Validator::isRequestProposalParamsValid($params);
+            }
+
+            default: {
+                throw new Error('Invalid templateID', 400);
+            }
+
         }
 
-        $deliveryStartDate = $params['deliveryStartDate'];
-
-        $cargoDescription = $params['cargoDescription'];
-        $message = $params['message'];
-
-        $senderName = $sender['name'];
-        $senderAddress = $sender['address'];
-        $senderEmailAddress = $sender['emailAddress'];
-        $senderPhone = $sender['phone'];
-
-        $receiverAddress = $receiver['address'];
-        $receiverPhone = $receiver['phone'];
-
-        if (!Validator::isMobilePhone($senderPhone)) {
-            throw new Error('Sender phone number is not valid', 400);
-        }
-
-        if (!Validator::isMobilePhone($receiverPhone)) {
-            throw new Error('Receiver phone number is not valid', 400);
-        }
-
-        if (!Validator::isEmailAddress($senderEmailAddress)) {
-            throw new Error('Sender email addres is not valid', 400);
-        }
-
-        if (!Validator::isDate($deliveryStartDate)) {
-            throw new Error('Delivery start date is not valid', 400);
-        }
-
-        if (!Validator::isAddress($senderAddress)) {
-            throw new Error('Sender address is not valid', 400);
-        }
-
-        if (!Validator::isAddress($receiverAddress)) {
-            throw new Error('Receiver address is not valid', 400);
-        }
-
-        if (!Validator::isRequestProposalCargoDescriptionValid($cargoDescription)) {
-            throw new Error('Cargo description is not valid', 400);
-        }
-
-        if (!Validator::isRequestProposalMessageValid($message)) {
-            throw new Error('Message is not valid', 400);
-        }
-
-        if (!Validator::isPersonName($senderName)) {
-            throw new Error('Sender name is not valid', 400);
-        }
-
-        return true;
     }
 
 }
