@@ -20,24 +20,39 @@ class EmailRouter {
 
         switch($route) {
 
-            case 'send': {
+            case 'templates': {
 
-                if ($method === 'POST') {
+                $templateID = $pathsArray[1];
+                $action = $pathsArray[2];
 
+                if (empty($templateID)) {
+                    return new Error('Required parameter missing (templateID)', 400);
+                }
 
-                    $emailController = new EmailController();
+                if (empty($action)) {
+                    return new Error('Required parameter missing (action)', 400);
+                }
 
-                    try {
-                        $emailController->sendProposalRequestEmail($params);
-                    } catch (Error $error) {
-                        return $error;
+                switch ($action) {
+
+                    case 'send': {
+
+                        $emailController = new EmailController();
+
+                        try {
+                            $emailController->sendEmail($templateID, $params);
+                        } catch (Error $error) {
+                            return $error;
+                        }
+
                     }
 
-                    return new APIResponse(200, 'OK');
+                    default: {
+                        return new Error('Action not supported for templates', 400);
+                    }
 
                 }
 
-                return new Error('This route does not support requested method');
             }
 
             default: {
@@ -48,4 +63,24 @@ class EmailRouter {
 
     }
 
+}
+/*
+case 'send': {
+
+    if ($method === 'POST') {
+
+
+        $emailController = new EmailController();
+
+        try {
+            $emailController->sendProposalRequestEmail($params);
+        } catch (Error $error) {
+            return $error;
+        }
+
+        return new APIResponse(200, 'OK');
+
+    }
+
+    return new Error('This route does not support requested method');
 }
