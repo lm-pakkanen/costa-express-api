@@ -1,5 +1,12 @@
 <?php
 
+namespace Src\routes;
+
+use Error;
+
+use Src\controllers\EmailController;
+use Src\models\APIResponse;
+
 require_once __DIR__ . '/../controllers/EmailController.php';
 
 class EmailRouter {

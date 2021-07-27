@@ -1,7 +1,13 @@
 <?PHP
+
+namespace Src;
+
+use Error;
+
+use Src\models\APIResponse;
+use Src\routes\Router;
+
 require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/src/routes/Router.php';
-require_once __DIR__ . '/src/models/APIResponse.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");

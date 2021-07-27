@@ -1,5 +1,7 @@
 <?php
 
+namespace Src\helpers;
+
 class Validator {
 
     public static function isMobilePhone($input, bool $requireInternational = true): bool {

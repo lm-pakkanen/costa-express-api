@@ -1,6 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../helpers/Validator.php';
+namespace Src\controllers;
+
+use Error;
+
+use Src\helpers\Validator;
+use Src\models\APIResponse;
+
 
 class EmailController {
 

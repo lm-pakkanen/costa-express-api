@@ -1,5 +1,7 @@
 <?php
 
+namespace Src\models;
+
 class APIResponse {
 
     private int $statusCode;
