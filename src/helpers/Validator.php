@@ -4,8 +4,20 @@ namespace Src\helpers;
 
 use Error;
 
+/**
+ * Class Validator
+ * @package Src\helpers
+ */
 class Validator {
 
+    /**
+     *
+     * Checks whether given string is a valid phone number
+     *
+     * @param $input
+     * @param bool $requireInternational > If true, requires number to start with "+"
+     * @return bool
+     */
     public static function isMobilePhone($input, bool $requireInternational = true): bool {
 
         if (empty($input)) { return false; }
@@ -24,6 +36,13 @@ class Validator {
         return true;
     }
 
+    /**
+     *
+     * Checks whether given string is an email address
+     *
+     * @param $input
+     * @return bool
+     */
     public static function isEmailAddress($input): bool {
 
         if (empty($input)) { return false; }
@@ -34,6 +53,13 @@ class Validator {
 
     }
 
+    /**
+     *
+     * Checks whether given string is a date
+     *
+     * @param $input > FORMAT: day.month.year
+     * @return bool
+     */
     public static function isDate($input): bool {
 
         if (empty($input)) { return false; }
@@ -49,6 +75,13 @@ class Validator {
 
     }
 
+    /**
+     *
+     * Checks whether given string is a valid name
+     *
+     * @param $input > Array including keys 'firstName' and 'lastName'
+     * @return bool
+     */
     public static function isPersonName($input): bool {
 
         if (empty($input) || !is_array($input)) { return false; }
@@ -68,6 +101,13 @@ class Validator {
 
     }
 
+    /**
+     *
+     * Checks whether given string is an address
+     *
+     * @param $input > Array including keys 'street', 'zip', 'country' and optionally 'region'
+     * @return bool
+     */
     public static function isAddress($input): bool {
 
         if (empty($input || !is_array($input))) { return false; }
@@ -92,6 +132,13 @@ class Validator {
         return true;
     }
 
+    /**
+     *
+     * Checks whether requestProposal's message field is valid
+     *
+     * @param $input
+     * @return bool
+     */
     public static function isRequestProposalMessageValid($input): bool {
 
         if (!empty($input) && strlen($input > 5000)) {
@@ -101,10 +148,26 @@ class Validator {
         return true;
     }
 
+    /**
+     *
+     * Checks whether requestProposal's cargo description is valid
+     *
+     * @param $input
+     * @return bool
+     */
     public static function isRequestProposalCargoDescriptionValid($input): bool {
         return !(empty($input) || strlen($input > 5000));
     }
 
+    /**
+     *
+     * Checks whether requestProposal's parameters are valid
+     *
+     * @param $params > Array including keys 'meta', 'sender', 'receiver',
+     *                                       'cargoDescription', 'message',
+     *                                       'deliveryStartDate'
+     * @return bool
+     */
     public static function isRequestProposalParamsValid($params): bool {
 
         // Required data missing
