@@ -1,7 +1,7 @@
 <html lang="fi">
 
 <head>
-    <title>CostaExpress | Yhteydenotto sivustolta</title>
+    <title>{{messageSubject}}</title>
     <style>
 
         .SectionTitle {
@@ -38,18 +38,20 @@
 
     <h2 class="SectionTitle">Noudon tiedot:</h2>
     <div class="sectionData">
-        <span>{{pickupAddressStreet}}</span>
-        <span>{{pickupAddressZipAndCity}}</span>
-        <span>{{pickupAddressCountry}}</span>
-        <span>{{pickupPhone}}</span>
+        <span>{{senderAddressStreet}}</span>
+        <span>{{senderAddressZipAndCity}}</span>
+        <span>{{senderAddressRegion}}</span>
+        <span>{{senderAddressCountry}}</span>
+        <span>{{senderPhone}}</span>
     </div>
 
     <h2 class="SectionTitle">Toimituksen tiedot:</h2>
     <div class="sectionData">
-        <span>{{deliveryAddressStreet}}</span>
-        <span>{{deliveryAddressZipAndCity}}</span>
-        <span>{{deliveryAddressCountry}}</span>
-        <span>{{deliveryPhone}}</span>
+        <span>{{receiverAddressStreet}}</span>
+        <span>{{receiverAddressZipAndCity}}</span>
+        <span>{{receiverAddressRegion}}</span>
+        <span>{{receiverAddressCountry}}</span>
+        <span>{{receiverPhone}}</span>
     </div>
 
     <h2 class="SectionTitle">Kuvaus rahdista:</h2>
@@ -59,7 +61,7 @@
 
     <h2 class="SectionTitle">Lähettäjän vapaamuotoinen viesti:</h2>
     <div class="sectionData">
-        <span>{{messageContent}}</span>
+        <span>{{message}}</span>
     </div>
 </div>
 
