@@ -2,9 +2,66 @@
 
 <head>
     <title>CostaExpress | Yhteydenotto sivustolta</title>
+    <style>
+
+        .SectionTitle {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .sectionData {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 5px;
+            border-left: 2px solid hsla(0, 0%, 20%, .8);
+        }
+
+    </style>
 </head>
 
 <body>
+
+<div>
+    <h1>Olet saanut yhteydenoton sivustolta.</h1>
+
+    <h2 class="SectionTitle">Lähettäjän tiedot:</h2>
+    <div class="sectionData">
+        <span>Etunimi: {{senderFirstName}}</span>
+        <span>Sukunimi: {{senderLastName}}</span>
+        <span>Sähköpostiosoite: {{senderEmailAddress}}</span>
+    </div>
+
+    <h2 class="SectionTitle">Valittu kuljetus:</h2>
+    <div class="sectionData">
+        <span>{{deliveryStartDate}}</span>
+    </div>
+
+    <h2 class="SectionTitle">Noudon tiedot:</h2>
+    <div class="sectionData">
+        <span>{{pickupAddressStreet}}</span>
+        <span>{{pickupAddressZipAndCity}}</span>
+        <span>{{pickupAddressCountry}}</span>
+        <span>{{pickupPhone}}</span>
+    </div>
+
+    <h2 class="SectionTitle">Toimituksen tiedot:</h2>
+    <div class="sectionData">
+        <span>{{deliveryAddressStreet}}</span>
+        <span>{{deliveryAddressZipAndCity}}</span>
+        <span>{{deliveryAddressCountry}}</span>
+        <span>{{deliveryPhone}}</span>
+    </div>
+
+    <h2 class="SectionTitle">Kuvaus rahdista:</h2>
+    <div class="sectionData">
+        <span>{{cargoDescription}}</span>
+    </div>
+
+    <h2 class="SectionTitle">Lähettäjän vapaamuotoinen viesti:</h2>
+    <div class="sectionData">
+        <span>{{messageContent}}</span>
+    </div>
+</div>
 
 </body>
 
