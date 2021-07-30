@@ -3,13 +3,12 @@
 namespace Src\controllers;
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 use Error;
+use Exception;
 
 use Src\helpers\Validator;
-use Src\models\APIResponse;
-
 
 /**
  * Class EmailController
@@ -39,79 +38,58 @@ class EmailController {
             throw new Error('Template parameters invalid', 400);
         }
 
-        $mailer = new PHPMailer(getenv('ENVIRONMENT') === 'dev');
-
-        $mailer->isSMTP();
-        $mailer->Host = 'smtp.qnet.fi';
-        $mailer->Port = 25;
-
-        $mailer->setFrom('yhteydenotto@costaexpress.fi', 'CostaExpress');
-
-        $customerEmailAddress = $params['sender']['emailAddress'];
-        $customerName = $params['sender']['name'];
-        $customerName = $customerName['firstName'] . ' ' . $customerName['lastName'];
-
-        $mailer->addReplyTo(htmlspecialchars($customerEmailAddress), htmlspecialchars($customerName));
-
-        $mailer->addAddress('yhteydenotto@costaexpress.fi', 'CostaExpress');
-
         $messageSubject = 'CostaExpress | Yhteydenotto sivustolta';
 
-        $mailer->Subject = htmlspecialchars($messageSubject);
+        $messageReceiverEmail = 'yhteydenotto@costaexpress.fi';
+        $messageReceiverName = 'CostaExpress';
 
-        $messageBody = file_get_contents(__DIR__ . '/../emailTemplates/requestProposal.html');
+        $messageSenderEmail = 'yhteydenotto@costaexpress.fi';
+        $messageSenderName = 'CostaExpress';
 
-        $messageBody = str_replace('{{messageSubject}}', htmlspecialchars($messageSubject), $messageBody);
+        $messageReceiverEmail = 'kuikka87@gmail.com';
+        $messageReceiverName = 'LMP';
 
-        $sender = $params['sender'];
-        $senderName = $sender['name'];
-        $senderAddress = $sender['address'];
+        $messageSenderEmail = 'kuikka87@gmail.com';
+        $messageSenderName = 'LMP';
 
-        $senderFirstName = $senderName['firstName'];
-        $senderLastName = $senderName['lastName'];
-        $senderEmailAddress = $sender['emailAddress'];
+        try {
 
-        $messageBody = str_replace('{{senderFirstName}}', htmlspecialchars($senderFirstName), $messageBody);
-        $messageBody = str_replace('{{senderLastName}}', htmlspecialchars($senderLastName), $messageBody);
-        $messageBody = str_replace('{{senderEmailAddress}}', htmlspecialchars($senderEmailAddress), $messageBody);
+            $mailer = new PHPMailer(getenv('ENVIRONMENT') === 'dev');
 
-        $deliveryStartDate = $params['deliveryStartDate'];
+            $mailer->isSMTP();
+            $mailer->Host = 'smtp.qnet.fi';
+            $mailer->Port = 25;
 
-        $messageBody = str_replace('{{deliveryStartDate}}', htmlspecialchars($deliveryStartDate), $messageBody);
+            $mailer->setFrom($messageSenderEmail, $messageSenderName);
 
-        $senderAddressStreet = $senderAddress['street'];
-        $senderAddressZipAndCity = $senderAddress['zip'];
-        $senderAddressRegion = $senderAddress['region'];
-        $senderAddressCountry = $senderAddress['country'];
-        $senderPhone = $sender['phone'];
+            $customerEmailAddress = $params['senderEmailAddress'];
+            $customerName = $params['senderFirstName'] . ' ' . $params['senderLastName'];
 
-        $messageBody = str_replace('{{senderAddressStreet}}', htmlspecialchars($senderAddressStreet), $messageBody);
-        $messageBody = str_replace('{{senderAddressZipAndCity}}', htmlspecialchars($senderAddressZipAndCity), $messageBody);
-        $messageBody = str_replace('{{senderAddressRegion}}', htmlspecialchars($senderAddressRegion), $messageBody);
-        $messageBody = str_replace('{{senderAddressCountry}}', htmlspecialchars($senderAddressCountry), $messageBody);
-        $messageBody = str_replace('{{senderPhone}}', htmlspecialchars($senderPhone), $messageBody);
+            $mailer->addReplyTo(htmlspecialchars($customerEmailAddress), htmlspecialchars($customerName));
 
+            $mailer->addAddress($messageReceiverEmail, $messageReceiverName);
 
-        $receiver = $params['receiver'];
-        $receiverAddress = $receiver['address'];
+            $mailer->Subject = htmlspecialchars($messageSubject);
 
-        $receiverAddressStreet = $receiverAddress['street'];
-        $receiverAddressZipAndCity = $receiverAddress['zip'];
-        $receiverAddressRegion = $receiverAddress['region'];
-        $receiverAddressCountry = $receiverAddress['country'];
-        $receiverPhone = $receiver['phone'];
+            $messageBody = file_get_contents(__DIR__ . '/../emailTemplates/requestProposal.html');
 
-        $messageBody = str_replace('{{receiverAddressStreet}}', htmlspecialchars($receiverAddressStreet), $messageBody);
-        $messageBody = str_replace('{{receiverAddressZipAndCity}}', htmlspecialchars($receiverAddressZipAndCity), $messageBody);
-        $messageBody = str_replace('{{receiverAddressRegion}}', htmlspecialchars($receiverAddressRegion), $messageBody);
-        $messageBody = str_replace('{{receiverAddressCountry}}', htmlspecialchars($receiverAddressCountry), $messageBody);
-        $messageBody = str_replace('{{receiverPhone}}', htmlspecialchars($receiverPhone), $messageBody);
+            $messageBody = str_replace('{{messageSubject}}', htmlspecialchars($messageSubject), $messageBody);
 
-        $cargoDescription = $params['cargoDescription'];
-        $message = $params['message'];
+            foreach ($params as $key => $value) {
+                $messageBody = str_replace('{{' . htmlspecialchars($key) . '}}', htmlspecialchars($value), $messageBody);
+            }
 
-        $messageBody = str_replace('{{cargoDescription}}', htmlspecialchars($cargoDescription), $messageBody);
-        $messageBody = str_replace('{{message}}', htmlspecialchars($message), $messageBody);
+            $mailer->msgHTML($messageBody);
+
+            if (!$mailer->send()) {
+                throw new Error('Could not send email: ' . $mailer->ErrorInfo);
+            }
+
+        } catch (phpMailerException $exception) {
+            throw new Error($exception->errorMessage(), 500);
+        } catch (Exception $exception) {
+            throw new Error($exception->getMessage(), 500);
+        }
 
     }
 
