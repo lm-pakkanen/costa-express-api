@@ -4,16 +4,19 @@
     <title>{{messageSubject}}</title>
     <style>
 
+        .Section {
+            margin: 1rem 0;
+        }
+
         .SectionTitle {
             font-weight: bold;
             font-size: 1.2rem;
+            margin: 1rem auto;
         }
 
-        .sectionData {
-            display: flex;
-            flex-direction: column;
-            padding: 20px 5px;
-            border-left: 2px solid hsla(0, 0%, 20%, .8);
+        .SectionData {
+            padding: 20px;
+            border-left: 3px solid hsla(0, 0%, 40%, 1);
         }
 
     </style>
@@ -24,43 +27,56 @@
 <div>
     <h1>Olet saanut yhteydenoton sivustolta.</h1>
 
-    <h2 class="SectionTitle">Lähettäjän tiedot:</h2>
-    <div class="sectionData">
-        <span>Etunimi: {{senderFirstName}}</span>
-        <span>Sukunimi: {{senderLastName}}</span>
-        <span>Sähköpostiosoite: {{senderEmailAddress}}</span>
+    <div class="Section">
+        <h2 class="SectionTitle">Lähettäjän tiedot:</h2>
+        <div class="SectionData">
+            <div>Etunimi: {{senderFirstName}}</div><br />
+            <div>Sukunimi: {{senderLastName}}</div><br />
+            <div>Sähköpostiosoite: <a rel="nofollow" href="#" style="text-decoration: none; color:#333">{{senderEmailAddress}}</a></div>
+        </div>
     </div>
 
-    <h2 class="SectionTitle">Valittu kuljetus:</h2>
-    <div class="sectionData">
-        <span>{{startDate}}</span>
+    <div class="Section">
+        <h2 class="SectionTitle">Valittu kuljetus:</h2>
+        <div class="SectionData">
+            <div>{{startDate}}</div>
+        </div>
     </div>
 
-    <h2 class="SectionTitle">Noudon tiedot:</h2>
-    <div class="sectionData">
-        <span>{{pickupAddressStreet}}</span>
-        <span>{{pickupAddressZipAndCity}}</span>
-        <span>{{pickupAddressCountry}}</span>
-        <span>{{pickupPhone}}</span>
+    <div class="Section">
+        <h2 class="SectionTitle">Noudon tiedot:</h2>
+        <div class="SectionData">
+            <div>{{pickupAddressStreet}}</div><br />
+            <div>{{pickupAddressZipAndCity}}</div><br />
+            <div>{{pickupAddressCountry}}</div><br />
+            <div>{{pickupPhone}}</div>
+        </div>
     </div>
 
-    <h2 class="SectionTitle">Toimituksen tiedot:</h2>
-    <div class="sectionData">
-        <span>{{deliveryAddressStreet}}</span>
-        <span>{{deliveryAddressZipAndCity}}</span>
-        <span>{{deliveryAddressCountry}}</span>
-        <span>{{deliveryPhone}}</span>
+    <div class="Section">
+        <h2 class="SectionTitle">Toimituksen tiedot:</h2>
+        <div class="SectionData">
+            <div>{{deliveryAddressStreet}}</div><br />
+            <div>{{deliveryAddressZipAndCity}}</div><br />
+            <div>{{deliveryAddressCountry}}</div><br />
+            <div>{{deliveryPhone}}</div>
+        </div>
     </div>
 
-    <h2 class="SectionTitle">Kuvaus rahdista:</h2>
-    <div class="sectionData">
-        <span>{{cargoDescription}}</span>
+    <div class="Section">
+        <h2 class="SectionTitle">Kuvaus rahdista:</h2>
+        <div class="SectionData">
+            <div>{{cargoDescription}}</div>
+        </div>
     </div>
 
-    <h2 class="SectionTitle">Lähettäjän vapaamuotoinen viesti:</h2>
-    <div class="sectionData">
-        <span>{{messageContent}}</span>
+    <div class="Section">
+        <h2 class="SectionTitle">Lähettäjän vapaamuotoinen viesti:</h2>
+        <div class="SectionData">
+            <div>{{messageContent}}</div>
+        </div>
     </div>
+
 </div>
 
 </body>

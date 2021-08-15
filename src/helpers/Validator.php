@@ -114,7 +114,6 @@ class Validator {
 
         $street = $input['street'];
         $zip = $input['zip'];
-        $region = $input['region'];
         $country = $input['country'];
 
         if (
@@ -187,7 +186,6 @@ class Validator {
         $senderAddress = [
             "street" => $params['pickupAddressStreet'],
             "zip" => $params['pickupAddressZipAndCity'],
-            "region" => $params['pickupAddressRegion'],
             "country" => $params['pickupAddressCountry']
         ];
 
@@ -196,7 +194,6 @@ class Validator {
         $receiverAddress = [
             "street" => $params['deliveryAddressStreet'],
             "zip" => $params['deliveryAddressZipAndCity'],
-            "region" => $params['deliveryAddressRegion'],
             "country" => $params['deliveryAddressCountry']
         ];
 
