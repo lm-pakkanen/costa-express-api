@@ -40,15 +40,21 @@ class EmailController {
 
         $messageSubject = 'CostaExpress | Yhteydenotto sivustolta';
 
-        $messageReceiverEmail = 'yhteydenotto@costaexpress.fi';
-        $messageReceiverName = 'CostaExpress';
+        $messageReceiverEmail = 'info@costaexpress.fi';
+        $messageReceiverName = 'CostaExpress info';
 
         $messageSenderEmail = 'yhteydenotto@costaexpress.fi';
         $messageSenderName = 'CostaExpress';
 
+        //$messageReceiverEmail = 'kuikka87@gmail.com';
+        //$messageReceiverName = 'CostaExpress info';
+
         try {
 
             $mailer = new PHPMailer(getenv('ENVIRONMENT') === 'dev');
+
+            $mailer->CharSet = 'UTF-8';
+            $mailer->Encoding = 'base64';
 
             $mailer->isSMTP();
             $mailer->Host = 'smtp.qnet.fi';
