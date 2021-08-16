@@ -46,9 +46,6 @@ class EmailController {
         $messageSenderEmail = 'yhteydenotto@costaexpress.fi';
         $messageSenderName = 'CostaExpress';
 
-        $messageReceiverName = 'vst';
-        $messageReceiverEmail = 'kuikka87@gmail.com';
-
         try {
 
             $mailer = new PHPMailer(getenv('ENVIRONMENT') === 'dev');
