@@ -38,6 +38,8 @@ class EmailController {
             throw new Error('Template parameters invalid', 400);
         }
 
+        $reCaptchaToken = $params['reCaptchaToken'];
+
         $messageSubject = 'CostaExpress | Yhteydenotto sivustolta';
 
         $messageReceiverEmail = 'info@costaexpress.fi';
