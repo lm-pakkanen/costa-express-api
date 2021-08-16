@@ -43,7 +43,7 @@ class EmailController {
         $messageReceiverEmail = 'yhteydenotto@costaexpress.fi';
         $messageReceiverName = 'CostaExpress';
 
-        $messageSenderEmail = 'yhteydenotto@costaexpress.fi';
+        $messageSenderEmail = 'info@costaexpress.fi';
         $messageSenderName = 'CostaExpress';
 
         try {
