@@ -9,7 +9,7 @@
     },
     "servers": [
         {
-            "url": "http://costaexpress.fi"
+            "url": "https://costaexpress.fi"
         }
     ],
     "paths": {},
