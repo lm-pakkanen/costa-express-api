@@ -48,8 +48,13 @@ class EmailController {
         $messageSenderEmail = 'yhteydenotto@costaexpress.fi';
         $messageSenderName = 'CostaExpress';
 
-        //$messageReceiverEmail = 'kuikka87@gmail.com';
-        //$messageReceiverName = 'CostaExpress info';
+        /**
+         * Send emails to test address in development mode
+         */
+        if (getenv('ENVIRONMENT') === 'dev') {
+            $messageReceiverEmail = 'kuikka87@gmail.com';
+            $messageReceiverName = 'CostaExpress info';
+        }
 
         try {
 
