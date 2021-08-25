@@ -2,8 +2,11 @@
 
 namespace Src\controllers;
 
+use GuzzleHttp\Exception\GuzzleException;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
+
+use GuzzleHttp\Client as GuzzleHttp;
 
 use Error;
 use Exception;
@@ -15,14 +18,6 @@ use Src\helpers\Validator;
  * @package Src\controllers
  */
 class EmailController {
-
-    /**
-     * EmailController constructor.
-     */
-    public function __construct()
-    {
-
-    }
 
     /**
      *
@@ -39,6 +34,10 @@ class EmailController {
         }
 
         $reCaptchaToken = $params['reCaptchaToken'];
+
+        if (!self::isReCaptchaValid($reCaptchaToken)) {
+            throw new Error('reCaptcha token invalid', 400);
+        }
 
         $messageSubject = 'CostaExpress | Yhteydenotto sivustolta';
 
@@ -89,13 +88,11 @@ class EmailController {
             $mailer->msgHTML($messageBody);
 
             if (!$mailer->send()) {
-                throw new Error('Could not send email: ' . $mailer->ErrorInfo);
+                throw new Error('Could not send email', 500);
             }
 
-        } catch (phpMailerException $exception) {
-            throw new Error($exception->errorMessage(), 500);
-        } catch (Exception $exception) {
-            throw new Error($exception->getMessage(), 500);
+        } catch (phpMailerException | Exception $exception) {
+            throw new Error('Could not send email', 500);
         }
 
     }
@@ -125,6 +122,57 @@ class EmailController {
                 throw new Error('Invalid templateID', 400);
             }
 
+        }
+
+    }
+
+    private static function isReCaptchaValid($token): bool {
+
+        $guzzle = new GuzzleHttp();
+
+        try {
+
+            $response = $guzzle->request(
+                'POST',
+                'https://www.google.com/recaptcha/api/siteverify',
+                [
+                    'form_params' => [
+                        'secret' => getenv('RECAPTCHA_SECRET'),
+                        'response' => $token
+                    ]
+                ]
+            );
+
+            $responseStatus = $response->getStatusCode();
+            $responseBody = json_decode($response->getBody(), true);
+
+            if ($responseStatus !== 200) {
+                throw new Error('reCaptcha could not be verified.', 500);
+            }
+
+            /**
+             * Token deemed secure
+             */
+            if ($responseBody['success']) {
+                return true;
+            } else {
+
+                /**
+                 * Error occurred in checking
+                 */
+                if ($responseBody['error-codes']) {
+                    throw new Error('reCaptcha could not be verified.', 403);
+                }
+
+            }
+
+            /**
+             * Token deemed not secure
+             */
+            return false;
+
+        } catch (GuzzleException $exception) {
+            throw new Error($exception->getMessage(), $exception->getCode());
         }
 
     }

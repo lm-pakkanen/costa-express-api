@@ -2,7 +2,8 @@
     "require": {
         "vlucas/phpdotenv": "^2.4",
         "ext-json": "*",
-        "phpmailer/phpmailer": "^6.5"
+        "phpmailer/phpmailer": "^6.5",
+        "guzzlehttp/guzzle": "^7.3"
     },
     "autoload": {
         "psr-4": {

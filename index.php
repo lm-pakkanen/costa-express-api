@@ -4,16 +4,34 @@ namespace Src;
 
 use Error;
 
+use Src\helpers\DotEnv;
+
 use Src\models\APIResponse;
 use Src\routes\Router;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Origin: https://costaexpress.fi");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Max-Age: -1");
+header("Cache-Control: no-store");
+header("Content-Security-Policy: frame-ancestors 'none'");
+header("Content-Type: application/json; charset=UTF-8");
+header("X-Content-Type-Options: nosniff");
+header("X-Powered-By: Express");
+
+try {
+    DotEnv::load(__DIR__ . '/.env');
+} catch (Error $error) {
+    http_response_code(500);
+    echo json_encode('Could not load environment variables.');
+    die();
+}
+
+if (getenv('ENVIRONMENT') !== 'dev') {
+    header("Strict-Transport-Security");
+}
 
 $router = new Router();
 
