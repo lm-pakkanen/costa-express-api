@@ -50,14 +50,14 @@ class EmailController {
         /**
          * Send emails to test address in development mode
          */
-        if (getenv('ENVIRONMENT') === 'dev') {
+        if (getenv('ENVIRONMENT') === 'development' || getenv('ENVIRONMENT') === 'staging') {
             $messageReceiverEmail = 'kuikka87@gmail.com';
             $messageReceiverName = 'CostaExpress info';
         }
 
         try {
 
-            $mailer = new PHPMailer(getenv('ENVIRONMENT') === 'dev');
+            $mailer = new PHPMailer(getenv('ENVIRONMENT') === 'development');
 
             $mailer->CharSet = 'UTF-8';
             $mailer->Encoding = 'base64';
@@ -128,7 +128,7 @@ class EmailController {
 
     private static function isReCaptchaValid($token): bool {
 
-        $guzzle = new GuzzleHttp();
+        $guzzle = new GuzzleHttp([ 'verify' => false ]);
 
         try {
 

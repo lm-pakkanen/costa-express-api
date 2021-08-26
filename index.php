@@ -29,7 +29,7 @@ try {
     die();
 }
 
-if (getenv('ENVIRONMENT') !== 'dev') {
+if (!(getenv('ENVIRONMENT') === 'development' || getenv('ENVIRONMENT') === 'staging')) {
     header("Strict-Transport-Security");
 }
 
