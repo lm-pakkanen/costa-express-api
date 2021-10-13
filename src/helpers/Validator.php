@@ -29,7 +29,7 @@ class Validator {
             return false;
         }
 
-        if (strlen($input) < 7 || strlen($input) > 16) {
+        if (strlen($input) < 5 || strlen($input) > 40) {
             return false;
         }
 
