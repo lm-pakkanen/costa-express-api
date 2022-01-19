@@ -51,7 +51,7 @@ class EmailController {
          * Send emails to test address in development mode
          */
         if (getenv('ENVIRONMENT') === 'development' || getenv('ENVIRONMENT') === 'staging') {
-            $messageReceiverEmail = 'kuikka87@gmail.com';
+            $messageReceiverEmail = 'info@harriot.fi';
             $messageReceiverName = 'CostaExpress info';
         }
 
