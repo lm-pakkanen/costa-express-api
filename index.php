@@ -11,7 +11,7 @@ use Src\routes\Router;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-header("Access-Control-Allow-Origin: https://costaexpress.fi");
+header("Access-Control-Allow-Origin: https://www.qnet.fi/costaexpress");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Max-Age: -1");

@@ -1,0 +1,9 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "xcopy . ..\\built\\api /s /y"
+  },
+  "author": "Harr",
+  "license": "ISC"
+}
