@@ -28,7 +28,7 @@ class EmailRouter {
 
         /** Split paths into array, remove first (empty) element & path domain */
         $pathsArray = explode('/', $path);
-        $pathsArray = array_slice($pathsArray, 3);
+        $pathsArray = array_slice($pathsArray, 4);
         $route = $pathsArray[0];
 
         switch($route) {

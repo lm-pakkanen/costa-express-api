@@ -24,7 +24,7 @@ class Router {
 
         /** Split paths into array, remove first (empty) element */
         $pathsArray = explode('/', $path);
-        $pathsArray = array_slice($pathsArray, 2);
+        $pathsArray = array_slice($pathsArray, 3);
         $routeDomain = $pathsArray[0];
 
         switch($routeDomain) {
