@@ -140,8 +140,8 @@ class Validator {
      */
     public static function isRequestProposalMessageValid($input): bool {
 
-        if (!empty($input) && strlen($input > 5000)) {
-            return false;
+        if (!empty($input) && strlen($input) > 5000) {
+          return false;
         }
 
         return true;
@@ -155,7 +155,7 @@ class Validator {
      * @return bool
      */
     public static function isRequestProposalCargoDescriptionValid($input): bool {
-        return !(empty($input) || strlen($input > 5000));
+        return !(empty($input) || strlen($input) > 5000);
     }
 
     /**
